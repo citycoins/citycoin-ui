@@ -23,6 +23,7 @@ export function CityCoinMining({ ownerStxAddress }) {
   const amountRef = useRef();
   const mineManyRef = useRef();
   const memoRef = useRef();
+  const sameForAllBlocks = useRef();
   const [txId, setTxId] = useState();
   const [loading, setLoading] = useState();
   const [isError, setError] = useState();
@@ -30,6 +31,7 @@ export function CityCoinMining({ ownerStxAddress }) {
   const [buttonLabel, setButtonLabel] = useState('Mine');
   const [numberOfBlocks, setNumberOfBlocks] = useState();
   const [blockAmounts, setBlockAmounts] = useState([]);
+  const [sameBlockAmounts, setSameBlockAmounts] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [checked, setChecked] = useState(false);
   const [profileState, setProfileState] = useState({
@@ -51,6 +53,25 @@ export function CityCoinMining({ ownerStxAddress }) {
   const onCheckboxClick = () => {
     setChecked(!checked);
     return canBeSubmitted();
+  };
+
+  const sameCommitAllBlocks = () => {
+    setSameBlockAmounts(!sameBlockAmounts);
+    var amountForAll = 0;
+    for (let i = 0; i < numberOfBlocks; i++) {
+      let target = document.getElementById(`miningAmount-${converter.toWords(i + 1)}`);
+      if (!sameBlockAmounts) {
+        if (i == 0) {
+          amountForAll = target.value;
+        } else {
+          target.value = amountForAll;
+          target.disabled = true;
+        }
+      } else {
+        target.disabled = false;
+      }
+    }
+    return sameBlockAmounts;
   };
 
   useEffect(() => {
@@ -197,14 +218,30 @@ export function CityCoinMining({ ownerStxAddress }) {
           />
           <label htmlFor="mineMany">Number of Blocks to Mine?</label>
         </div>
+        {numberOfBlocks > 1 && (
+          <div className="form-check my-3">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              ref={sameForAllBlocks}
+              value=""
+              id="sameForAllBlocks"
+              onClick={sameCommitAllBlocks}
+            />
+            <label className="form-check-label" htmlFor="sameForAllBlocks">
+              Mine same amount for every block?
+            </label>
+          </div>
+        )}
         <br />
-        <div className="input-group mb-3" hidden={numberOfBlocks != 1}>
+        <div className={`input-group mb-3 ${numberOfBlocks != 1 ? 'd-none' : ''}`}>
           <input
             type="number"
             className="form-control"
             ref={amountRef}
             aria-label="Amount in STX"
             placeholder="Amount in STX"
+            title="Amount to spend bidding for this single block."
             required
             minLength="1"
           />
@@ -214,12 +251,11 @@ export function CityCoinMining({ ownerStxAddress }) {
         </div>
         <input
           ref={memoRef}
-          className="form-control"
+          className={`form-control ${numberOfBlocks != 1 ? 'd-none' : ''}`}
           type="text"
           placeholder="Memo (optional)"
           aria-label="Optional memo field"
           maxLength="34"
-          hidden={numberOfBlocks != 1}
         />
         <div className="input-group">
           {blockAmounts.map(b => {
@@ -244,8 +280,9 @@ export function CityCoinMining({ ownerStxAddress }) {
                       )
                     );
                     var sumArray = [];
-                    for (let i = 0; i < numberOfBlocks; i++)
+                    for (let i = 0; i < numberOfBlocks; i++) {
                       sumArray.push(parseInt(blockAmounts[i].amount));
+                    }
                     sumArray = sumArray.filter(function (value) {
                       return !Number.isNaN(value);
                     });
@@ -291,7 +328,7 @@ export function CityCoinMining({ ownerStxAddress }) {
               <li>
                 participation does not guarantee winning the rights to claim newly minted $MIA
               </li>
-              <li>once STX are sent to the contract, they are not returned</li>
+              <li>once STX are sent to the contract, it is one way, and they are not returned</li>
             </ul>
           </label>
         </div>
