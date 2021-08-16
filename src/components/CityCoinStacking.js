@@ -74,19 +74,42 @@ export function CityCoinStacking({ ownerStxAddress }) {
       <h3>Stack CityCoins</h3>
       <CurrentBlockHeight />
       <p>
-        Stacking CityCoins locks up the set amount in the contract for a number of reward cycles.
-        Once these reward cycles pass, CityCoin owners are eligible to withdraw their CityCoins in
-        addition to STX commited by miners during that reward cycle, proportionate to the amount
-        Stacked within that cycle.
+        Stacking CityCoins transfers and locks up the chosen amount in the contract for a number of
+        reward cycles, starting with the{' '}
+        <span className="fst-italic">next available reward cycle.</span>
       </p>
+      <p>
+        Stackers can claim STX rewards from miners for each cycle after it ends, and can reclaim
+        their Stacked CityCoins once the final selected cycle ends. You can Stack multiple times and
+        for different reward cycle lengths.
+      </p>
+      <div class="alert alert-info d-flex align-items-center" role="alert">
+        <i class="bi bi-info-circle fs-1 me-3"></i>
+        <div>
+          <p>For example, if you Stack 250,000 MIA for 2 cycles during reward cycle #0, then:</p>
+          <ul>
+            <li>Stacking will begin in reward cycle #1</li>
+            <li>After reward cycle #1 ends, STX rewards can be claimed</li>
+            <li>After reward cycle #2 ends, STX rewards and Stacked CityCoins can be claimed</li>
+          </ul>
+          <p>
+            For more information, please review{' '}
+            <a
+              rel="noreferrer"
+              target="_blank"
+              href="https://docs.citycoins.co/citycoins-core-protocol/stacking-citycoins"
+              className="alert-link"
+            >
+              Stacking in the documentation.
+            </a>
+          </p>
+        </div>
+      </div>
       <p>
         The first Stacking cycle begins at Block #26597, and to be eligible for rewards during that
         cycle, Stackers must lock their tokens prior to that block.
       </p>
-      <p>
-        You can submit for up to 32 cycles max, and will not be able to participate for one cycle
-        when it ends (also called a "cooldown period").
-      </p>
+      <p>One cycle is 2,100 blocks, or about two weeks. You can submit for up to 32 cycles max.</p>
       <form>
         <div className="input-group mb-3">
           <input
