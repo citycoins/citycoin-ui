@@ -75,6 +75,22 @@ export async function getMiningActivationBlockHeight() {
   }
 }
 
+export async function getIsBlockWinner(ownerStxAddress, blockHeight) {
+  const result = await callReadOnlyFunction({
+    contractAddress: CONTRACT_DEPLOYER,
+    contractName: CITYCOIN_CORE,
+    functionName: 'is-block-winner',
+    functionArgs: [standardPrincipalCV(ownerStxAddress), uintCV(blockHeight)],
+    network: NETWORK,
+    senderAddress: CONTRACT_DEPLOYER,
+  });
+  if (result.type === ClarityType.BoolTrue) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export async function getRegisteredMinerId(address) {
   const result = await callReadOnlyFunction({
     contractAddress: CONTRACT_DEPLOYER,
