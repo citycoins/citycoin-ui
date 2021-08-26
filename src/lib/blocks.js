@@ -29,27 +29,37 @@ export async function refreshBlockHeight(block) {
   }
 }
 
-export async function refreshRewardCycle(cycle) {
+export async function refreshRewardCycle() {
   try {
-    cycle(v => {
-      return { value: v.value, loading: true };
-    });
+    const apiResult = await fetch(STACKS_API_V2_INFO);
+    const apiResultJson = await apiResult.json();
+    const block = apiResultJson.stacks_tip_height;
     const resultCV = await callReadOnlyFunction({
       contractAddress: CONTRACT_DEPLOYER,
       contractName: CITYCOIN_CORE,
       functionName: 'get-reward-cycle',
-      functionArgs: [uintCV(cycle.value)],
+      functionArgs: [uintCV(block)],
       network: NETWORK,
       senderAddress: CONTRACT_DEPLOYER,
     });
     const resultJSON = cvToJSON(resultCV);
-    console.log(`resultJSON: ${resultJSON}`);
-    cycle(() => {
-      return { value: cycle.value, loading: false };
-    });
+    return resultJSON.value.value;
   } catch (e) {
     console.log(e);
   }
+}
+
+export async function getFirstBlockInCycle(cycle) {
+  const resultCV = await callReadOnlyFunction({
+    contractAddress: CONTRACT_DEPLOYER,
+    contractName: CITYCOIN_CORE,
+    functionName: 'get-first-stacks-block-in-reward-cycle',
+    functionArgs: [uintCV(cycle)],
+    network: NETWORK,
+    senderAddress: CONTRACT_DEPLOYER,
+  });
+  const resultJSON = cvToJSON(resultCV);
+  return resultJSON.value;
 }
 
 export async function getStxFees() {

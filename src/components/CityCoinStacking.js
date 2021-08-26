@@ -83,8 +83,8 @@ export function CityCoinStacking({ ownerStxAddress }) {
         their Stacked CityCoins once the final selected cycle ends. You can Stack multiple times and
         for different reward cycle lengths.
       </p>
-      <div class="alert alert-info d-flex align-items-center" role="alert">
-        <i class="bi bi-info-circle fs-1 me-3"></i>
+      <div className="alert alert-info d-flex align-items-center" role="alert">
+        <i className="bi bi-info-circle fs-1 me-3"></i>
         <div>
           <p>For example, if you Stack 250,000 MIA for 2 cycles during reward cycle #0, then:</p>
           <ul>

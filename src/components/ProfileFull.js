@@ -117,6 +117,7 @@ export function ProfileFull({ stxAddress, userSession }) {
           )}
           <hr />
           <CurrentBlockHeight />
+          <CurrentRewardCycle />
         </div>
       </div>{' '}
     </div>
