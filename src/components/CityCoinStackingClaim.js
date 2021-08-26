@@ -75,6 +75,8 @@ export function CityCoinStackingClaim({ ownerStxAddress }) {
     <>
       <h3>Claim Stacking Rewards</h3>
       <CurrentBlockHeight />
+      <CurrentRewardCycle />
+      <hr />
       <div className="my-2">
         <p>Coming soon!</p>
         <p>

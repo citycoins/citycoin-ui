@@ -75,6 +75,7 @@ export function CityCoinStacking({ ownerStxAddress }) {
       <h3>Stack CityCoins</h3>
       <CurrentBlockHeight />
       <CurrentRewardCycle />
+      <hr />
       <p>
         Stacking CityCoins transfers and locks up the chosen amount in the contract for a number of
         reward cycles, starting with the{' '}
