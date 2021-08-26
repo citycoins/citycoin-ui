@@ -18,6 +18,7 @@ import {
 } from '@stacks/transactions';
 import { getCityCoinBalance } from '../lib/citycoin';
 import { CurrentBlockHeight } from './CurrentBlockHeight';
+import { CurrentRewardCycle } from './CurrentRewardCycle';
 
 export function CityCoinStacking({ ownerStxAddress }) {
   const amountRefStacking = useRef();
@@ -73,6 +74,7 @@ export function CityCoinStacking({ ownerStxAddress }) {
     <>
       <h3>Stack CityCoins</h3>
       <CurrentBlockHeight />
+      <CurrentRewardCycle />
       <p>
         Stacking CityCoins transfers and locks up the chosen amount in the contract for a number of
         reward cycles, starting with the{' '}
@@ -106,10 +108,9 @@ export function CityCoinStacking({ ownerStxAddress }) {
         </div>
       </div>
       <p>
-        The first Stacking cycle begins at Block #26597, and to be eligible for rewards during that
-        cycle, Stackers must lock their tokens prior to that block.
+        One cycle is 2,100 blocks or about two weeks. You can submit for up to 32 cycles max or
+        about 16 months.
       </p>
-      <p>One cycle is 2,100 blocks, or about two weeks. You can submit for up to 32 cycles max.</p>
       <form>
         <div className="input-group mb-3">
           <input
