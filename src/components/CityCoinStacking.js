@@ -83,8 +83,8 @@ export function CityCoinStacking({ ownerStxAddress }) {
       </p>
       <p>
         Stackers can claim STX rewards from miners for each cycle after it ends, and can reclaim
-        their Stacked CityCoins once the final selected cycle ends. You can Stack multiple times and
-        for different reward cycle lengths.
+        their Stacked CityCoins once the locking period ends. You can Stack multiple times and for
+        different reward cycle lengths.
       </p>
       <div className="alert alert-info d-flex align-items-center" role="alert">
         <i className="bi bi-info-circle fs-1 me-3"></i>
