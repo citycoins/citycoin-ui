@@ -109,8 +109,8 @@ export function CityCoinStacking({ ownerStxAddress }) {
         </div>
       </div>
       <p>
-        One cycle is 2,100 blocks or about two weeks. You can submit for up to 32 cycles max or
-        about 16 months.
+        One cycle is 2,100 Stacks blocks or about two weeks. You can submit for up to 32 cycles max
+        or about 16 months.
       </p>
       <form>
         <div className="input-group mb-3">
