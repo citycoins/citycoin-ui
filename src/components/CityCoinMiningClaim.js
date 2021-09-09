@@ -58,9 +58,6 @@ export function CityCoinMiningClaim({ ownerStxAddress }) {
           bigResponse +
           `
         <div class="row border-bottom">
-          <div class="col-2 fw-bold">
-            ${i}
-          </div>
           <div class="col-2">
             ${totalAmountUstx}
           </div>
@@ -92,6 +89,24 @@ export function CityCoinMiningClaim({ ownerStxAddress }) {
   };
   return (
     <>
+      <h3 className="mt-6">Claim Mining Rewards</h3>
+      <div>
+        <div className="form-floating">
+          <input
+            className="form-control"
+            placeholder="Claim Height?"
+            type="number"
+            id="startCheckHeight"
+            ref={claimCheckHeight}
+          />
+          <label htmlFor="blockHeightToCheck">Claim Height?</label>
+        </div>
+        <button className="btn btn-block btn-primary my-3 me-3" type="button" onClick={claimAction}>
+          Claim Rewards
+        </button>
+      </div>
+      {txId && <TxStatus txId={txId} />}
+      <hr />
       <h3>Check Stats/Wins</h3>
       <CurrentBlockHeight />
       <div className="mb-3 row">
@@ -136,27 +151,6 @@ export function CityCoinMiningClaim({ ownerStxAddress }) {
           </button>
         </div>
         <div id="blockHeightResponse"></div>
-        <h3 className="mt-6">Claim Mining Rewards</h3>
-        <div>
-          <div className="form-floating">
-            <input
-              className="form-control"
-              placeholder="Claim Height?"
-              type="number"
-              id="startCheckHeight"
-              ref={claimCheckHeight}
-            />
-            <label htmlFor="blockHeightToCheck">Claim Height?</label>
-          </div>
-          <button
-            className="btn btn-block btn-primary my-3 me-3"
-            type="button"
-            onClick={claimAction}
-          >
-            Claim Rewards
-          </button>
-        </div>
-        {txId && <TxStatus txId={txId} />}
       </div>
     </>
   );
