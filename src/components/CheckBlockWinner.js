@@ -1,0 +1,62 @@
+import { Fragment, useState } from 'react';
+import { useConnect } from '@stacks/connect-react';
+import { getIsBlockWinner } from '../lib/citycoin';
+import { CITYCOIN_CORE, CONTRACT_DEPLOYER, NETWORK } from '../lib/constants';
+import { uintCV } from '@stacks/transactions';
+
+export function CheckBlockWinner(props) {
+  const [loading, setLoading] = useState(true);
+  const [isWinner, setIsWinner] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [txId, setTxId] = useState();
+  const { doContractCall } = useConnect();
+
+  const blockWinner = async () => {
+    const result = await getIsBlockWinner(props.ownerStxAddress, props.blockHeight);
+    //console.log(`result: ${result}`);
+    setLoading(false);
+    setIsWinner(result);
+  };
+
+  blockWinner();
+
+  const claimAction = async () => {
+    await doContractCall({
+      contractAddress: CONTRACT_DEPLOYER,
+      contractName: CITYCOIN_CORE,
+      functionName: 'claim-mining-reward',
+      functionArgs: [uintCV(props.blockHeight)],
+      network: NETWORK,
+      onFinish: result => {
+        setTxId(result.txId);
+        setIsDisabled(true);
+      },
+    });
+  };
+
+  return (
+    <Fragment key={props.blockHeight}>
+      <div className="row border-bottom">
+        <div className={`col-2 my-auto ${isWinner ? 'text-success fw-bold' : ''}`}>
+          {props.blockHeight}
+        </div>
+        <div className={`col-2 my-auto ${isWinner ? 'text-success fw-bold' : ''}`}>
+          {loading ? 'Loading...' : isWinner ? 'Yes!' : 'No'}
+        </div>
+        {isWinner ? (
+          <div className="col-2">
+            <button
+              className="btn btn-sm btn-block btn-primary"
+              type="button"
+              onClick={claimAction}
+              disabled={isDisabled}
+            >
+              Claim {props.blockHeight}
+            </button>
+          </div>
+        ) : null}
+        {txId && <div className="col-2 my-auto">0x{txId}</div>}
+      </div>
+    </Fragment>
+  );
+}

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { Fragment, useRef, useState } from 'react';
 import { useConnect } from '@stacks/connect-react';
 import { CONTRACT_DEPLOYER, CITYCOIN_CORE, NETWORK } from '../lib/constants';
 import { uintCV, callReadOnlyFunction, cvToJSON, standardPrincipalCV } from '@stacks/transactions';
@@ -7,6 +7,7 @@ import { TxStatus } from './TxStatus';
 import { getIsBlockWinner, getMiningStatsAtBlock } from '../lib/citycoin';
 import { ClaimButton } from './ClaimButton';
 import { ClaimResponse } from './ClaimResponse';
+import { CheckBlockWinner } from './CheckBlockWinner';
 
 export function CityCoinMiningClaim({ ownerStxAddress }) {
   const [loading, setLoading] = useState();
@@ -19,6 +20,17 @@ export function CityCoinMiningClaim({ ownerStxAddress }) {
   const claimCheckHeight = useRef();
   // const [winnerTable, setWinnerTable] = useState([]);
   const blockHeightResponse = document.getElementById('blockHeightResponse');
+
+  const [checkBlockWinner, setCheckBlockWinner] = useState([]);
+
+  const checkWinner = async () => {
+    // reset array to blank
+    setCheckBlockWinner([]);
+    // populate array with values to check
+    for (let i = startCheckHeight.current.value; i <= endCheckHeight.current.value; i++) {
+      setCheckBlockWinner(prevArray => [...prevArray, parseInt(i)]);
+    }
+  };
 
   const canClaimRewards = claimValue => {
     return claimValue ? setCanClaim(true) : setCanClaim(false);
@@ -68,25 +80,6 @@ export function CityCoinMiningClaim({ ownerStxAddress }) {
     blockHeightResponse.innerHTML = bigResponse;
   };
 
-  const checkWinner = async () => {
-    // read-only call for is-block-winner
-    blockHeightResponse.innerHTML = 'Loading...';
-    let blockHeightsToCheck = [];
-    let bigResponse = '';
-
-    for (let i = startCheckHeight.current.value; i <= endCheckHeight.current.value; i++) {
-      blockHeightResponse.innerHTML = `Loading Winners: ${i} out of ${endCheckHeight.current.value}`;
-      blockHeightsToCheck.push(parseInt(i));
-      await getIsBlockWinner(ownerStxAddress, parseInt(i)).then(result => {
-        console.log(`block: ${i} result: ${result}`);
-        bigResponse += `<div class="row border-bottom">
-        <div class="col-2 ${result ? 'bg-light text-success fw-bold' : ''}">${i}</div>
-        <div class="col-2 ${result ? 'bg-light text-success fw-bold' : ''}">${result}</div>
-        </div>`;
-        blockHeightResponse.innerHTML = bigResponse;
-      });
-    }
-  };
   return (
     <>
       <h3 className="mt-6">Claim Mining Rewards</h3>
@@ -151,6 +144,15 @@ export function CityCoinMiningClaim({ ownerStxAddress }) {
           </button>
         </div>
         <div id="blockHeightResponse"></div>
+        {checkBlockWinner
+          ? checkBlockWinner.map(blockHeight => (
+              <CheckBlockWinner
+                key={blockHeight}
+                ownerStxAddress={ownerStxAddress}
+                blockHeight={blockHeight}
+              />
+            ))
+          : null}
       </div>
     </>
   );
