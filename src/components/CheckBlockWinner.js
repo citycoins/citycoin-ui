@@ -9,6 +9,7 @@ export function CheckBlockWinner(props) {
   const [isWinner, setIsWinner] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [txId, setTxId] = useState();
+  const [nonce, setNonce] = useState();
   const { doContractCall } = useConnect();
 
   const blockWinner = async () => {
@@ -29,6 +30,8 @@ export function CheckBlockWinner(props) {
       network: NETWORK,
       onFinish: result => {
         setTxId(result.txId);
+        console.log(`nonce: ${result.stacksTransaction.auth.spendingCondition.nonce.toNumber()}`);
+        setNonce(result.stacksTransaction.auth.spendingCondition.nonce.toNumber());
         setIsDisabled(true);
       },
     });
@@ -55,7 +58,12 @@ export function CheckBlockWinner(props) {
             </button>
           </div>
         ) : null}
-        {txId && <div className="col-2 my-auto">0x{txId}</div>}
+        {txId && (
+          <>
+            <div className="col-2 my-auto">Nonce {nonce}</div>
+            <div className="col-2 my-auto">0x{txId}</div>
+          </>
+        )}
       </div>
     </Fragment>
   );
