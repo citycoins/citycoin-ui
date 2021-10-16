@@ -8,6 +8,7 @@ import { getIsBlockWinner, getMiningStatsAtBlock } from '../lib/citycoin';
 import { ClaimButton } from './ClaimButton';
 import { ClaimResponse } from './ClaimResponse';
 import { CheckBlockWinner } from './CheckBlockWinner';
+import { CheckBlockStats } from './CheckBlockStats';
 
 export function CityCoinMiningClaim({ ownerStxAddress }) {
   const [loading, setLoading] = useState();
@@ -21,7 +22,17 @@ export function CityCoinMiningClaim({ ownerStxAddress }) {
   // const [winnerTable, setWinnerTable] = useState([]);
   const blockHeightResponse = document.getElementById('blockHeightResponse');
 
+  const [checkBlockStats, setCheckBlockStats] = useState([]);
   const [checkBlockWinner, setCheckBlockWinner] = useState([]);
+
+  const checkStats = async () => {
+    // reset array to blank
+    setCheckBlockStats([]);
+    // populate array with values to check
+    for (let i = startCheckHeight.current.value; i <= endCheckHeight.current.value; i++) {
+      setCheckBlockStats(prevArray => [...prevArray, parseInt(i)]);
+    }
+  };
 
   const checkWinner = async () => {
     // reset array to blank
@@ -52,32 +63,6 @@ export function CityCoinMiningClaim({ ownerStxAddress }) {
         setTxId(result.txId);
       },
     });
-  };
-
-  const checkStats = async () => {
-    // read-only call for get-mining-stats-at-block
-    console.log('checkStats called');
-    blockHeightResponse.innerHTML = 'Loading...';
-    let bigResponse = '';
-
-    for (let i = startCheckHeight.current.value; i <= endCheckHeight.current.value; i++) {
-      console.log(`loop index: ${i}`);
-      blockHeightResponse.innerHTML = `Loading Stats: ${i} out of ${endCheckHeight.current.value}`;
-      await getMiningStatsAtBlock(i).then(stats => {
-        const totalAmountUstx = stats.value.value.amount.value;
-        console.log(`total: ${totalAmountUstx}`);
-        bigResponse =
-          bigResponse +
-          `
-        <div class="row border-bottom">
-          <div class="col-2">
-            ${totalAmountUstx}
-          </div>
-        </div>`;
-      });
-    }
-
-    blockHeightResponse.innerHTML = bigResponse;
   };
 
   return (
@@ -144,6 +129,11 @@ export function CityCoinMiningClaim({ ownerStxAddress }) {
           </button>
         </div>
         <div id="blockHeightResponse"></div>
+        {checkBlockStats
+          ? checkBlockStats.map(blockHeight => (
+              <CheckBlockStats key={blockHeight} blockHeight={blockHeight} />
+            ))
+          : null}
         {checkBlockWinner
           ? checkBlockWinner.map(blockHeight => (
               <CheckBlockWinner
