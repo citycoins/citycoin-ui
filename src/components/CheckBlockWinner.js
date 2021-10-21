@@ -15,8 +15,10 @@ export function CheckBlockWinner(props) {
   const blockWinner = async () => {
     const result = await getIsBlockWinner(props.ownerStxAddress, props.blockHeight);
     //console.log(`result: ${result}`);
-    setLoading(false);
-    setIsWinner(result);
+    if (result) {
+      setLoading(false);
+      setIsWinner(result);
+    }
   };
 
   blockWinner();

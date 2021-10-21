@@ -9,7 +9,7 @@ export function CheckBlockStats(props) {
       console.log(`blockStats err: ${err}`)
     );
     //console.log(`result: ${JSON.stringify(result)}`);
-    setAmountUstx(result.value.value.amount.value);
+    result && setAmountUstx(result.value.value.amount.value);
   };
 
   blockStats();
