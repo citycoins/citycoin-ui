@@ -12,7 +12,7 @@ export default function Landing(props) {
       <AlertMobile />
       <div className="jumbotron jumbotron-fluid pt-3 mb-0">
         <div className="container pt-3">
-          <h1>Introducing CityCoins - live</h1>
+          <h1>Introducing CityCoins</h1>
           <p className="h5">
             CityCoins gives communities the power to improve their cities, while providing crypto
             rewards to individual contributors and city governments alike.
