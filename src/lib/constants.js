@@ -35,21 +35,13 @@ export const MIAMICOIN_START_BLOCK = 24497;
 export const MIAMICOIN_MIA_WALLET = 'SM2MARAVW6BEJCD13YV2RHGYHQWT7TDDNMNRB1MVT';
 export const REWARD_CYCLE_LENGTH = mainnet ? 2100 : 50;
 
-export const STACKS_API_URL = localNode
-  ? 'http://localhost:3999'
-  : mainnet
-  ? 'https://stacks-node-api.mainnet.stacks.co'
-  : 'https://stacks-node-api.testnet.stacks.co';
-export const STACKS_API_WS_URL = localNode
-  ? 'ws:localhost:3999/'
-  : mainnet
-  ? 'wss://stacks-node-api.mainnet.stacks.co/'
-  : 'wss://stacks-node-api.testnet.stacks.co/';
+export const STACKS_API_URL = 'https://stacks-node-api.testnet.stacks.co';
+export const STACKS_API_WS_URL ='wss://stacks-node-api.testnet.stacks.co/';
 export const STACKS_API_V2_INFO = `${STACKS_API_URL}/v2/info`;
 export const STACKS_API_ACCOUNTS_URL = `${STACKS_API_URL}/v2/accounts`;
 export const STACKS_API_FEE_URL = `${STACKS_API_URL}/v2/fees/transfer`;
 
-export const NETWORK = mainnet ? new StacksMainnet() : new StacksTestnet();
+export const NETWORK = new StacksTestnet();
 NETWORK.coreApiUrl = STACKS_API_URL;
 
 const basePath = STACKS_API_URL;
