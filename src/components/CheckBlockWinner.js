@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useConnect } from '@stacks/connect-react';
 import { getIsBlockWinner } from '../lib/citycoin';
 import { CITYCOIN_CORE, CONTRACT_DEPLOYER, NETWORK } from '../lib/constants';
@@ -12,16 +12,14 @@ export function CheckBlockWinner(props) {
   const [nonce, setNonce] = useState();
   const { doContractCall } = useConnect();
 
-  const blockWinner = async () => {
-    const result = await getIsBlockWinner(props.ownerStxAddress, props.blockHeight);
-    //console.log(`result: ${result}`);
-    if (result !== undefined) {
-      setLoading(false);
-      setIsWinner(result);
-    }
-  };
-
-  blockWinner();
+  useEffect(() => {
+    getIsBlockWinner(props.ownerStxAddress, props.blockHeight).then(result => {
+      if (result !== undefined) {
+        setLoading(false);
+        setIsWinner(result);
+      }
+    });
+  }, [props.blockHeight, props.ownerStxAddress]);
 
   const claimAction = async () => {
     await doContractCall({
