@@ -8,7 +8,7 @@ export function Address() {
   const displayAddress = useMemo(() => {
     if (bnsName.loaded) return bnsName.data;
     if (stxAddress.loaded)
-      return `${stxAddress.data.substr(0, 5)}...${stxAddress.data.substr(
+      return `${stxAddress.data.substring(0, 5)}...${stxAddress.data.substring(
         stxAddress.data.length - 5
       )}`;
     return 'Profile';
