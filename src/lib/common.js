@@ -39,11 +39,11 @@ export const createNestedObject = (keys, data) => {
 
   const lastIndex = keys.length - 1;
 
-  keys.reduce((o, k, i) => {
-    const isLastIndex = i === lastIndex;
-    console.log(`i: ${i} lastIndex: ${lastIndex} isLastIndex: ${isLastIndex}`);
-    const val = isLastIndex ? o[k] : data;
-    return (o[k] = val);
+  keys.reduce((nestedObject, currentValue, index) => {
+    const isLastIndex = index === lastIndex;
+    console.log(`index: ${index} lastIndex: ${lastIndex} isLastIndex: ${isLastIndex}`);
+    const value = isLastIndex ? nestedObject[currentValue] : data;
+    return (nestedObject[currentValue] = value);
   }, result);
 
   return result;
