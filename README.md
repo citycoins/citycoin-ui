@@ -1,3 +1,8 @@
+# New git repo
+https://github.com/boomcrypto/citycoins-ui
+
+# This repo does not contain the currently deployed code
+
 # CityCoin UI
 
 Basic UI components for interacting with the [CityCoin contract](https://github.com/citycoins/citycoin).
