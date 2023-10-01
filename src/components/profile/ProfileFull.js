@@ -60,7 +60,7 @@ export function ProfileFull() {
               </a>
             )}
             <a
-              href="https://github.com/citycoins/citycoin-ui/issues/new?assignees=&labels=Bug&template=bug_report.md&title=%F0%9F%90%9E%5BBUG%5D+"
+              href="https://github.com/citycoins/ui/issues/new?assignees=&labels=Bug&template=bug_report.md&title=%F0%9F%90%9E%5BBUG%5D+"
               rel="noreferrer"
               target="_blank"
               className="btn btn-outline-primary"
@@ -69,7 +69,7 @@ export function ProfileFull() {
               <i className="bi bi-bug"></i>
             </a>
             <a
-              href="https://github.com/citycoins/citycoin-ui/issues/new?assignees=&labels=Enhancement&template=feature_request.md&title=%E2%9A%A1%5BFEAT%5D+"
+              href="https://github.com/citycoins/ui/issues/new?assignees=&labels=Enhancement&template=feature_request.md&title=%E2%9A%A1%5BFEAT%5D+"
               rel="noreferrer"
               target="_blank"
               className="btn btn-outline-primary"

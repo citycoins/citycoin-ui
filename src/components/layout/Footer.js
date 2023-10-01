@@ -24,7 +24,7 @@ export default function Footer() {
         </div>
         <div className="col-md">
           <a
-            href="https://github.com/citycoins/citycoin-ui"
+            href="https://github.com/citycoins/ui"
             target="_blank"
             rel="noopener noreferrer"
             className="nav-link"
